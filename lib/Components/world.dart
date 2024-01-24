@@ -29,7 +29,6 @@ class DownToWorld extends World with HasGameRef<DownToGame> {
       Wall(position: Vector2(64, -64), sprite: Sprite(wallImage)),
     );
     addAll(dungeon);
-
     final playerImage = game.images.fromCache(
       Assets.assets_default_player_png,
     );

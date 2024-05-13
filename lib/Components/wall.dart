@@ -1,6 +1,7 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 
+import '../assets.dart';
 import '../downtogame.dart';
 
 class Wall extends SpriteComponent
@@ -10,6 +11,10 @@ class Wall extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
+    final wallImage = game.images.fromCache(
+      Assets.assets_default_wall_png,
+    );
+    sprite = Sprite(wallImage);
     add(RectangleHitbox());
   }
 }

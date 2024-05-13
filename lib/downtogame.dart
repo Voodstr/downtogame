@@ -5,15 +5,21 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flame/palette.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'assets.dart';
 
 class DownToGame extends FlameGame
-    with HasKeyboardHandlerComponents, HasCollisionDetection, ScrollDetector {
+    with HasKeyboardHandlerComponents, HasCollisionDetection, ScrollDetector, TapDetector, DoubleTapDetector   {
   DownToGame() : _world = DownToWorld() {
     cameraComponent = CameraComponent(world: _world);
     images.prefix = '';
   }
+
+  // Inside your game:
+  final pauseOverlayIdentifier = 'PauseMenu';
+
 
   late double startZoom;
   static const zoomPerScrollUnit = 0.5;
@@ -29,6 +35,7 @@ class DownToGame extends FlameGame
     clampZoom();
   }
 
+
   @override
   Color backgroundColor() {
     return const Color.fromARGB(255, 121, 63, 33);
@@ -41,12 +48,10 @@ class DownToGame extends FlameGame
 
   @override
   Future<void> onLoad() async {
-    add(TextComponent(text: 'Hello, Flame', textRenderer: regular)
-      ..anchor = Anchor.topCenter
-      ..x = size.x / 2 // size is a property from game
-      ..y = 32.0);
     await images.loadAll([
-      Assets.assets_default_player_png,
+      Assets.assets_default_player_0_png,
+      Assets.assets_default_player_1_png,
+      Assets.assets_default_player_2_png,
       Assets.assets_default_ground_png,
       Assets.assets_default_wall_png,
     ]);
@@ -55,4 +60,30 @@ class DownToGame extends FlameGame
     add(_world);
     cameraComponent.follow(_world.player);
   }
+}
+
+
+
+Widget _pauseMenuBuilder(BuildContext buildContext, DownToGame game) {
+  return Center(
+    child: Container(
+      width: 100,
+      height: 100,
+      color: Colors.orange,
+      child: const Center(
+        child: Text('Paused'),
+      ),
+    ),
+  );
+}
+
+Widget overlayBuilder(BuildContext ctx) {
+  return GameWidget<DownToGame>(
+    game: DownToGame()
+      ..paused = true,
+    overlayBuilderMap: const {
+      'PauseMenu': _pauseMenuBuilder,
+    },
+    initialActiveOverlays: const ['PauseMenu'],
+  );
 }

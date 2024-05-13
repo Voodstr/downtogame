@@ -12,8 +12,14 @@ class Assets {
   static const String assets_default_ground_png = 'assets/default/ground.png';
   static const String downtogame$assets_default_ground_png = 'packages/downtogame/assets/default/ground.png';
 
-  static const String assets_default_player_png = 'assets/default/player.png';
-  static const String downtogame$assets_default_player_png = 'packages/downtogame/assets/default/player.png';
+  static const String assets_default_player_0_png = 'assets/default/player_0.png';
+  static const String downtogame$assets_default_player_0_png = 'packages/downtogame/assets/default/player_0.png';
+
+  static const String assets_default_player_1_png = 'assets/default/player_1.png';
+  static const String downtogame$assets_default_player_1_png = 'packages/downtogame/assets/default/player_1.png';
+
+  static const String assets_default_player_2_png = 'assets/default/player_2.png';
+  static const String downtogame$assets_default_player_2_png = 'packages/downtogame/assets/default/player_2.png';
 
   static const String assets_default_wall_png = 'assets/default/wall.png';
   static const String downtogame$assets_default_wall_png = 'packages/downtogame/assets/default/wall.png';

@@ -100,7 +100,7 @@ class Character extends SpriteAnimationGroupComponent<CharacterState>
       CharacterState.idle: characterIdle
     };
     add(
-      CircleHitbox(),
+      RectangleHitbox.relative(Vector2(1, 0.9), parentSize: scaledSize,anchor: Anchor.bottomCenter)
     );
   }
 }

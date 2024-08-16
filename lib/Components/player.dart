@@ -7,16 +7,23 @@ import '../assets.dart';
 class Player extends Character with KeyboardHandler {
   Player({super.position, super.animations})
       : super(
-          size: Vector2.all(64),
-          anchor: Anchor.center,
-      charDefaultImage: Assets.assets_default_player_0_png,
-      charIdleImage: Assets.assets_default_player_1_png,
-      charRunningImage: Assets.assets_default_player_2_png,
-      moveSpeed: 200
-        );
+            size: Vector2.all(64),
+            anchor: Anchor.center,
+            charDefaultImage: Assets.assets_default_player_0_png,
+            charIdleImage: Assets.assets_default_player_1_png,
+            charRunningImage: Assets.assets_default_player_2_png,
+            moveSpeed: 200);
 
   @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    keysPressed.contains(LogicalKeyboardKey.escape)
+        ? {
+            if (game.paused)
+              {game.overlays.remove("PauseMenu"), game.resumeEngine()}
+            else
+              {game.overlays.add("PauseMenu"), game.pauseEngine()}
+          }
+        : {};
     horizontalDirection = 0;
     verticalDirection = 0;
     current = (keysPressed.contains(LogicalKeyboardKey.keyA) ||

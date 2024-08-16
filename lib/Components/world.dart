@@ -8,9 +8,9 @@ class DownToWorld extends World with HasGameRef<DownToGame> {
   final List<SpriteComponent> dungeon = [];
   late final Player player;
   List<List<bool>> groundLevel = [
+    [false, true, false],
     [true, true, true],
-    [true, true, true],
-    [true, true, true]
+    [false, true, false]
   ];
 
   static Vector2 size = Vector2.all(640);
@@ -21,9 +21,11 @@ class DownToWorld extends World with HasGameRef<DownToGame> {
   Future<void> onLoad() async {
     for (int i = 0; i<groundLevel.length; i++) {
       for (int k = 0; k < groundLevel.length; k++) {
-        dungeon.add(
-          Ground(position: Vector2(i * 64, k * 64)),
-        );
+        if(groundLevel.elementAt(i).elementAt(k)==true){
+          dungeon.add(
+            Ground(position: Vector2(i * 64, k * 64)),
+          );
+        }
       }
     }
     dungeon.add(

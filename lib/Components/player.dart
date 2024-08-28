@@ -11,14 +11,14 @@ class Player extends Character with KeyboardHandler {
             anchor: Anchor.center,
             charDefaultImage: Assets.assets_default_player_0_png,
             charIdleImage: Assets.assets_default_player_1_png,
-            charRunningImage: Assets.assets_default_player_2_png,
+            charRunningImage: Assets.assets_default_player_run_png,
             moveSpeed: 200);
 
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     keysPressed.contains(LogicalKeyboardKey.escape)
         ? {
-            if (game.paused)
+            if (game.overlays.isActive("PauseMenu"))
               {game.overlays.remove("PauseMenu"), game.resumeEngine()}
             else
               {game.overlays.add("PauseMenu"), game.pauseEngine()}

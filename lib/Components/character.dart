@@ -27,7 +27,7 @@ class Character extends SpriteAnimationGroupComponent<CharacterState>
   double stepTime = 0.2;
   String charDefaultImage = Assets.assets_default_player_0_png;
   String charIdleImage = Assets.assets_default_player_1_png;
-  String charRunningImage = Assets.assets_default_player_2_png;
+  String charRunningImage = Assets.assets_default_player_run_png;
 
   @override
   void update(double dt) {
@@ -45,7 +45,7 @@ class Character extends SpriteAnimationGroupComponent<CharacterState>
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is Wall) {
+    if (other is SolidObject) {
       if (intersectionPoints.length == 2) {
         // Calculate the collision normal and separation distance.
         final mid = (intersectionPoints.elementAt(0) +
@@ -60,9 +60,13 @@ class Character extends SpriteAnimationGroupComponent<CharacterState>
         position += collisionNormal.scaled(separationDistance);
       }
     }
-    if (other is Ground) {
-      moveSpeed = defaultMS * 1.5;
+    if (other is SurfaceObject) {
+      moveSpeed = defaultMS * other.slow;
       stepTime = 50 / moveSpeed;
+      other.current = SurfaceState.wave;
+    }
+    if (other is Entrance) {
+      game.world.removeFromParent();
     }
     super.onCollision(intersectionPoints, other);
   }
@@ -99,9 +103,7 @@ class Character extends SpriteAnimationGroupComponent<CharacterState>
       CharacterState.running: characterRunning,
       CharacterState.idle: characterIdle
     };
-    add(
-      RectangleHitbox.relative(Vector2(1, 0.9), parentSize: scaledSize,anchor: Anchor.bottomCenter)
-    );
+    add(CircleHitbox());
   }
 }
 

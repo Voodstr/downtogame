@@ -1,7 +1,7 @@
+import 'package:downtogame/main_menu.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
-import 'Components/pixelizedstadiumborder.dart';
 import 'DB/database.dart';
 import 'downtogame.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -42,30 +42,8 @@ class MyApp extends StatelessWidget {
         game: game,
         overlayBuilderMap: {
           "PauseMenu": (BuildContext context, DownToGame game) {
-            return Container(
-                padding: const EdgeInsets.all(50),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => {
-                        game.overlays.remove("PauseMenu"),
-                        game.resumeEngine()
-                      },
-                      style: ButtonStyle(
-                          shape:
-                              MaterialStatePropertyAll<PixelizedStadiumBorder>(
-                                  PixelizedStadiumBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      side: const BorderSide(
-                                          color: Colors.cyan, width: 3.0),
-                                      pixelRadius: 20.0,
-                                      pixelSize: 5.0))),
-                      child: const Text("Resume"),
-                    )
-                  ],
-                ));
-          }
+            return PauseMenu(game);
+          },
         },
       ),
     );

@@ -1,18 +1,31 @@
-import 'package:flame/collisions.dart';
+import 'package:downtogame/Components/Components.dart';
 import 'package:flame/components.dart';
 
 import '../assets.dart';
-import '../downtogame.dart';
 
-class Ground extends SpriteComponent with HasGameRef<DownToGame> {
-  Ground({super.position, super.sprite})
-      : super(size: Vector2.all(64), anchor: Anchor.center);
+class Ground extends SurfaceObject {
+  Ground({super.position, super.animations})
+      : super(
+          size: Vector2.all(64),
+          anchor: Anchor.center,
+          objDefaultImage: Assets.assets_default_ground_png,
+          objIdleImage: Assets.assets_default_ground_png,
+          objWaveImage: Assets.assets_default_ground_wave_png,
+          slow: 2.0,
+        );
+
   @override
-  Future<void> onLoad() async {
-    final groundImage = game.images.fromCache(
-      Assets.assets_default_ground_png,
-    );
-    sprite = Sprite(groundImage);
-    add(RectangleHitbox());
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is Player) {
+      current = SurfaceState.wave;
+    }
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    current = SurfaceState.idle;
+    super.onCollisionEnd(other);
   }
 }

@@ -3,3 +3,7 @@ export 'player.dart';
 export 'world.dart';
 export 'wall.dart';
 export 'character.dart';
+export 'pixelized_stadium_border.dart';
+export 'entrance.dart';
+export 'solid_object.dart';
+export 'surface_object.dart';

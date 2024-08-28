@@ -1,13 +1,9 @@
-import 'dart:ui';
 
 import 'package:downtogame/Components/components.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame/palette.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'assets.dart';
 
 class DownToGame extends FlameGame
@@ -17,17 +13,29 @@ class DownToGame extends FlameGame
     images.prefix = '';
   }
 
+  //Не забыть обновить
+  var assetsList = [
+    Assets.assets_default_player_0_png,
+    Assets.assets_default_player_1_png,
+    Assets.assets_default_player_run_png,
+    Assets.assets_default_ground_png,
+    Assets.assets_default_wall_png,
+    Assets.assets_default_entrance_png,
+    Assets.assets_default_ground_wave_png
+  ];
   // Inside your game:
   final pauseOverlayIdentifier = 'PauseMenu';
 
 
   late double startZoom;
-  static const zoomPerScrollUnit = 0.5;
+  static const zoomPerScrollUnit = 0.25;
 
   void clampZoom() {
-    cameraComponent.viewfinder.zoom = cameraComponent.viewfinder.zoom.clamp(0.5, 2.0);
+    cameraComponent.viewfinder.zoom =
+        cameraComponent.viewfinder.zoom.clamp(0.25, 1.0);
   }
 
+  // было бы интересно сделать отдаление как навык для разведки. т.к. сжатое пространство это ощущение ограничения и внезапности
   @override
   void onScroll(PointerScrollInfo info) {
     cameraComponent.viewfinder.zoom +=
@@ -35,11 +43,12 @@ class DownToGame extends FlameGame
     clampZoom();
   }
 
-
-  @override
+  /*@override
   Color backgroundColor() {
     return const Color.fromARGB(255, 121, 63, 33);
   }
+
+   */
 
   late final CameraComponent cameraComponent;
   final DownToWorld _world;
@@ -48,13 +57,7 @@ class DownToGame extends FlameGame
 
   @override
   Future<void> onLoad() async {
-    await images.loadAll([
-      Assets.assets_default_player_0_png,
-      Assets.assets_default_player_1_png,
-      Assets.assets_default_player_2_png,
-      Assets.assets_default_ground_png,
-      Assets.assets_default_wall_png,
-    ]);
+    await images.loadAll(assetsList);
     cameraComponent.viewfinder.anchor = Anchor.center;
     add(cameraComponent);
     add(_world);
@@ -83,6 +86,7 @@ Widget overlayBuilder(BuildContext ctx) {
       ..paused = true,
     overlayBuilderMap: const {
       'PauseMenu': _pauseMenuBuilder,
+      'AchievementMenu': _pauseMenuBuilder,
     },
     initialActiveOverlays: const ['PauseMenu'],
   );
